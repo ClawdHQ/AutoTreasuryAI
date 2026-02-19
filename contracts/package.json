@@ -5,13 +5,20 @@
   "private": true,
   "scripts": {
     "compile": "hardhat compile",
-    "test": "hardhat test",
+    "compile:offline": "node scripts/compile-offline.js",
+    "test": "node scripts/compile-offline.js && hardhat test --no-compile",
     "deploy:testnet": "hardhat run scripts/deploy.ts --network bscTestnet"
   },
   "devDependencies": {
     "@nomicfoundation/hardhat-toolbox": "^5.0.0",
+    "@nomicfoundation/hardhat-ethers": "^3.0.8",
+    "@types/chai": "^4.3.16",
+    "@types/mocha": "^10.0.7",
+    "chai": "^4.4.1",
     "dotenv": "^16.4.5",
+    "ethers": "^6.13.1",
     "hardhat": "^2.22.5",
+    "solc": "^0.8.26",
     "typescript": "^5.4.5",
     "ts-node": "^10.9.2",
     "@types/node": "^20.14.2"
