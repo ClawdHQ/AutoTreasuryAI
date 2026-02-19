@@ -1,4 +1,3 @@
-import { NextRequest, NextResponse } from "next/server";
 import { ethers } from "ethers";
 import {
   TreasuryAgent,
@@ -8,6 +7,26 @@ import {
   Asset,
   Strategy,
 } from "../../ai-engine/agents/TreasuryAgent";
+
+// =========================================================================
+// Minimal Next.js-compatible response helpers
+//
+// These use the standard Web Fetch API (Request / Response) which Next.js
+// App Router accepts natively.  By avoiding the `next` package entirely we
+// eliminate its known DoS vulnerabilities while keeping the exported handler
+// signatures fully compatible with Next.js API routes.
+// =========================================================================
+
+/**
+ * Creates a JSON Response with the supplied body and HTTP status code.
+ * Compatible with the Next.js App Router response contract.
+ */
+function jsonResponse(body: unknown, init?: { status?: number }): Response {
+  return new Response(JSON.stringify(body), {
+    status: init?.status ?? 200,
+    headers: { "Content-Type": "application/json" },
+  });
+}
 
 // =========================================================================
 // Provider
@@ -150,14 +169,14 @@ function calculateChange24h(_address: string): number {
  *          allocation, assets, and aiStrategy.
  */
 export async function GET(
-  request: NextRequest,
+  request: Request,
   { params }: { params: { address: string } }
-): Promise<NextResponse> {
+): Promise<Response> {
   try {
     const { address } = params;
 
     if (!ethers.isAddress(address)) {
-      return NextResponse.json({ error: "Invalid vault address" }, { status: 400 });
+      return jsonResponse({ error: "Invalid vault address" }, { status: 400 });
     }
 
     const [treasuryState, marketData] = await Promise.all([
@@ -180,7 +199,7 @@ export async function GET(
         strategy.targetAllocation.bnbStaking * marketData.stakingAPR) /
       100;
 
-    return NextResponse.json({
+    return jsonResponse({
       totalValue: treasuryState.totalValueUSD,
       change24h: calculateChange24h(address),
       currentAPR,
@@ -188,13 +207,13 @@ export async function GET(
       allocation: treasuryState.currentAllocation,
       assets: treasuryState.assets.map((a) => ({
         ...a,
-        balance: a.balance.toString(), // bigint → string for JSON serialisation
+        balance: a.balance.toString(), // bigint → string for JSON serialization
       })),
       aiStrategy: strategy,
     });
   } catch (error) {
     const message = error instanceof Error ? error.message : String(error);
-    return NextResponse.json({ error: message }, { status: 500 });
+    return jsonResponse({ error: message }, { status: 500 });
   }
 }
 
@@ -213,7 +232,7 @@ export async function GET(
  *
  * @returns JSON with strategy and formattedSummary.
  */
-export async function POST_chat(request: NextRequest): Promise<NextResponse> {
+export async function POST_chat(request: Request): Promise<Response> {
   try {
     const body = (await request.json()) as {
       message: string;
@@ -224,7 +243,7 @@ export async function POST_chat(request: NextRequest): Promise<NextResponse> {
     const { message, address, riskTolerance = "medium" } = body;
 
     if (!message || typeof message !== "string") {
-      return NextResponse.json({ error: "message is required" }, { status: 400 });
+      return jsonResponse({ error: "message is required" }, { status: 400 });
     }
 
     let treasuryState: TreasuryState = {
@@ -248,13 +267,13 @@ export async function POST_chat(request: NextRequest): Promise<NextResponse> {
       riskTolerance
     );
 
-    return NextResponse.json({
+    return jsonResponse({
       strategy,
       formattedSummary: agent.formatStrategySummary(strategy),
     });
   } catch (error) {
     const message = error instanceof Error ? error.message : String(error);
-    return NextResponse.json({ error: message }, { status: 500 });
+    return jsonResponse({ error: message }, { status: 500 });
   }
 }
 
@@ -272,22 +291,22 @@ export async function POST_chat(request: NextRequest): Promise<NextResponse> {
  *
  * @returns JSON with encodedActions (array of hex calldata strings).
  */
-export async function POST_execute(request: NextRequest): Promise<NextResponse> {
+export async function POST_execute(request: Request): Promise<Response> {
   try {
     const body = (await request.json()) as { strategy: Strategy };
     const { strategy } = body;
 
     if (!strategy || !Array.isArray(strategy.actions)) {
-      return NextResponse.json({ error: "strategy with actions is required" }, { status: 400 });
+      return jsonResponse({ error: "strategy with actions is required" }, { status: 400 });
     }
 
     const agent = new TreasuryAgent(process.env.OPENAI_API_KEY!);
     const encodedActions = agent.buildExecutionPlan(strategy);
 
-    return NextResponse.json({ encodedActions });
+    return jsonResponse({ encodedActions });
   } catch (error) {
     const message = error instanceof Error ? error.message : String(error);
-    return NextResponse.json({ error: message }, { status: 500 });
+    return jsonResponse({ error: message }, { status: 500 });
   }
 }
 
@@ -304,12 +323,12 @@ export async function POST_execute(request: NextRequest): Promise<NextResponse> 
  *
  * @returns JSON with pancakeAPR, venusAPR, stakingAPR, and volatility.
  */
-export async function GET_marketData(_request: NextRequest): Promise<NextResponse> {
+export async function GET_marketData(_request: Request): Promise<Response> {
   try {
     const marketData = await fetchMarketData();
-    return NextResponse.json(marketData);
+    return jsonResponse(marketData);
   } catch (error) {
     const message = error instanceof Error ? error.message : String(error);
-    return NextResponse.json({ error: message }, { status: 500 });
+    return jsonResponse({ error: message }, { status: 500 });
   }
 }
