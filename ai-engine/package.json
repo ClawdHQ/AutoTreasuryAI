@@ -10,6 +10,18 @@
     "build": "tsc",
     "test": "jest"
   },
+  "dependencies": {
+    "ethers": "^6.13.1",
+    "openai": "^4.52.7"
+  },
+  "devDependencies": {
+    "@types/jest": "^29.5.12",
+    "@types/node": "^20.14.2",
+    "jest": "^29.7.0",
+    "ts-jest": "^29.2.2",
+    "tsx": "^4.16.2",
+    "typescript": "^5.4.5"
+  },
   "keywords": ["ai", "treasury", "optimization", "dao"],
   "license": "MIT"
 }
