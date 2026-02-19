@@ -1,0 +1,21 @@
+{
+  "name": "autotreasury-ai",
+  "version": "1.0.0",
+  "description": "AI-powered treasury management for DAOs on BNB Chain",
+  "private": true,
+  "workspaces": [
+    "contracts",
+    "ai-engine",
+    "backend",
+    "frontend"
+  ],
+  "scripts": {
+    "dev": "pnpm -r --parallel dev",
+    "build": "pnpm -r build",
+    "test": "pnpm -r test",
+    "deploy:testnet": "cd contracts && hardhat run scripts/deploy.ts --network bscTestnet"
+  },
+  "keywords": ["dao", "treasury", "ai", "defi", "bnb"],
+  "author": "Your Name",
+  "license": "MIT"
+}
