@@ -1,0 +1,20 @@
+{
+  "name": "@autotreasury/demo",
+  "version": "1.0.0",
+  "description": "Live demo script for AutoTreasury AI",
+  "private": true,
+  "scripts": {
+    "start": "tsx demo.ts",
+    "build": "tsc"
+  },
+  "dependencies": {
+    "chalk": "^5.4.1"
+  },
+  "devDependencies": {
+    "@types/node": "^20.14.2",
+    "tsx": "^4.16.2",
+    "typescript": "^5.4.5"
+  },
+  "keywords": ["demo", "treasury", "ai", "defi", "bnb"],
+  "license": "MIT"
+}

@@ -3,3 +3,4 @@ packages:
   - 'ai-engine'
   - 'backend'
   - 'frontend'
+  - 'demo'
