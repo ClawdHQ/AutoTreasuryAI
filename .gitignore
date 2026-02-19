@@ -62,3 +62,4 @@ typechain-types/
 .turbo/
 *.tgz
 .npm/
+package-lock.json
