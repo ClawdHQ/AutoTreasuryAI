@@ -11,6 +11,15 @@
     "start": "node dist/index.js",
     "test": "jest"
   },
+  "dependencies": {
+    "@autotreasury/ai-engine": "workspace:*",
+    "ethers": "^6.13.1"
+  },
+  "devDependencies": {
+    "@types/node": "^20.14.2",
+    "tsx": "^4.16.2",
+    "typescript": "^5.4.5"
+  },
   "keywords": ["api", "backend", "dao", "treasury"],
   "license": "MIT"
 }
