@@ -7,12 +7,14 @@
     "contracts",
     "ai-engine",
     "backend",
-    "frontend"
+    "frontend",
+    "demo"
   ],
   "scripts": {
     "dev": "pnpm -r --parallel dev",
     "build": "pnpm -r build",
     "test": "pnpm -r test",
+    "demo": "cd demo && npx tsx demo.ts",
     "deploy:testnet": "cd contracts && hardhat run scripts/deploy.ts --network bscTestnet"
   },
   "keywords": ["dao", "treasury", "ai", "defi", "bnb"],
