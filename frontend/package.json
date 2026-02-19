@@ -1,0 +1,15 @@
+{
+  "name": "@autotreasury/frontend",
+  "version": "1.0.0",
+  "description": "Next.js web application for AutoTreasury AI",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "test": "jest"
+  },
+  "keywords": ["nextjs", "react", "dao", "treasury", "web3"],
+  "license": "MIT"
+}

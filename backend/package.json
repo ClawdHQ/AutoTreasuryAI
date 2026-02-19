@@ -1,0 +1,16 @@
+{
+  "name": "@autotreasury/backend",
+  "version": "1.0.0",
+  "description": "API and services for AutoTreasury AI",
+  "private": true,
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "dev": "tsx watch src/index.ts",
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "test": "jest"
+  },
+  "keywords": ["api", "backend", "dao", "treasury"],
+  "license": "MIT"
+}
