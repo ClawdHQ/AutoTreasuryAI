@@ -103,10 +103,10 @@ async function fetchMarketData(): Promise<MarketData> {
 
 export async function GET(
   _request: Request,
-  { params }: { params: { address: string } }
+  { params }: { params: Promise<{ address: string }> }
 ): Promise<Response> {
   try {
-    const { address } = params;
+    const { address } = await params;
 
     if (!ethers.isAddress(address)) {
       return jsonResponse({ error: 'Invalid vault address' }, { status: 400 });
