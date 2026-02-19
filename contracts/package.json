@@ -1,0 +1,13 @@
+{
+  "name": "@autotreasury/contracts",
+  "version": "1.0.0",
+  "description": "Smart contracts for AutoTreasury AI",
+  "private": true,
+  "scripts": {
+    "compile": "hardhat compile",
+    "test": "hardhat test",
+    "deploy:testnet": "hardhat run scripts/deploy.ts --network bscTestnet"
+  },
+  "keywords": ["dao", "treasury", "defi", "bnb", "smart-contracts"],
+  "license": "MIT"
+}
